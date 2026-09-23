@@ -1,6 +1,7 @@
 'use strict';
 
 const http = require('http');
+const { handleBotCommand } = require('./bot');
 const { postWorkNotes } = require('./serviceNow');
 const { buildServiceNowPayload, buildWorkNotes, searchCommunications } = require('./workNotes');
 
@@ -65,6 +66,12 @@ async function handleSummarize(request, response) {
   sendJson(response, 200, result);
 }
 
+async function handleBotMessage(request, response) {
+  const body = await parseJsonBody(request);
+  const result = await handleBotCommand(body);
+  sendJson(response, 200, result);
+}
+
 function createServer() {
   return http.createServer(async (request, response) => {
     try {
@@ -74,6 +81,10 @@ function createServer() {
 
       if (request.method === 'POST' && request.url === '/api/work-notes/summarize') {
         return await handleSummarize(request, response);
+      }
+
+      if (request.method === 'POST' && request.url === '/api/bot/message') {
+        return await handleBotMessage(request, response);
       }
 
       return sendJson(response, 404, { error: 'Not found' });

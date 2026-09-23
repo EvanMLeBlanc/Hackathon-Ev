@@ -1,6 +1,6 @@
 # Teams/Outlook to ServiceNow Work Notes Helper
 
-This repository contains a lightweight Node.js service that helps a specialist:
+This repository contains a lightweight Node.js service and bot interface that helps a specialist:
 
 1. collect Teams chat or Outlook email content,
 2. search the communication for the relevant discussion,
@@ -53,6 +53,39 @@ Request body:
 }
 ```
 
+### `POST /api/bot/message`
+
+Bot-style endpoint for Teams or Outlook clients that want to send a command plus selected communication content.
+
+Request body:
+
+```json
+{
+  "text": "summarize incident 8d6353b21b2c0110f3f54db8cc4bcb12 for Contoso query vpn disconnect",
+  "communications": [
+    {
+      "source": "teams",
+      "sender": "Customer",
+      "subject": "VPN issue",
+      "message": "Customer reports the VPN disconnects every 10 minutes."
+    },
+    {
+      "source": "teams",
+      "sender": "Specialist",
+      "message": "Verified the user's home network, reset the VPN profile, and collected logs."
+    }
+  ]
+}
+```
+
+Supported commands:
+
+- `help`
+- `summarize incident <recordSysId> [for <customer>] [query <terms>] [post]`
+- `summarize task <recordSysId> [for <customer>] [query <terms>] [post]`
+
+If `post` is included, the bot posts the generated work notes to ServiceNow.
+
 Response body:
 
 ```json
@@ -98,7 +131,7 @@ using the `work_notes` field.
 This repository intentionally keeps the implementation small. The expected integration pattern is:
 
 1. a Teams bot, Outlook add-in, or workflow gathers chat/email content,
-2. that client sends the selected communication records to this service,
+2. that client sends the selected communication records and bot command to this service,
 3. this service returns a formatted summary or posts it to ServiceNow.
 
 This separation keeps the summarization and ServiceNow update behavior reusable across both Teams and Outlook.
