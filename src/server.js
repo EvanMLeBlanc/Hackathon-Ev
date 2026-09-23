@@ -2,6 +2,7 @@
 
 const http = require('http');
 const { handleBotCommand } = require('./bot');
+const { handleTeamsActivity } = require('./teams');
 const { postWorkNotes } = require('./serviceNow');
 const { buildServiceNowPayload, buildWorkNotes, searchCommunications } = require('./workNotes');
 
@@ -72,6 +73,12 @@ async function handleBotMessage(request, response) {
   sendJson(response, 200, result);
 }
 
+async function handleTeamsMessage(request, response) {
+  const body = await parseJsonBody(request);
+  const result = await handleTeamsActivity(body);
+  sendJson(response, 200, result);
+}
+
 function createServer() {
   return http.createServer(async (request, response) => {
     try {
@@ -85,6 +92,10 @@ function createServer() {
 
       if (request.method === 'POST' && request.url === '/api/bot/message') {
         return await handleBotMessage(request, response);
+      }
+
+      if (request.method === 'POST' && request.url === '/api/teams/messages') {
+        return await handleTeamsMessage(request, response);
       }
 
       return sendJson(response, 404, { error: 'Not found' });
