@@ -4,6 +4,7 @@
   "description": "Teams and Outlook communication summarizer for ServiceNow work notes",
   "main": "src/server.js",
   "scripts": {
+    "package:teams": "node scripts/package-teams-app.js",
     "start": "node src/server.js",
     "test": "node --test"
   },

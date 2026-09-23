@@ -4,4 +4,5 @@
 .LSOverride
 Icon
 ._*
+dist/
 node_modules/

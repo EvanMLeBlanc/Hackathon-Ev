@@ -146,6 +146,7 @@ Requires Node.js 18+.
 
 ```bash
 npm test
+npm run package:teams
 npm start
 ```
 
@@ -186,3 +187,48 @@ To use this as a Teams bot:
 4. include selected Teams chat or Outlook email content in `activity.value.communications`.
 
 This repository does not depend on the Bot Framework SDK; it provides the bot-compatible HTTP surface that a Teams app can call directly.
+
+## Teams app package scaffold
+
+This repository now includes a Teams app package scaffold for sideloading:
+
+- `/home/runner/work/Hackathon-Ev/Hackathon-Ev/teams-app/assets/color.png`
+- `/home/runner/work/Hackathon-Ev/Hackathon-Ev/teams-app/assets/outline.png`
+- `/home/runner/work/Hackathon-Ev/Hackathon-Ev/src/teamsAppManifest.js`
+- `/home/runner/work/Hackathon-Ev/Hackathon-Ev/scripts/package-teams-app.js`
+
+Build the sideload package with:
+
+```bash
+TEAMS_BASE_URL=https://your-bot-host.example.com \
+TEAMS_APP_ID=11111111-1111-1111-1111-111111111111 \
+TEAMS_BOT_ID=11111111-1111-1111-1111-111111111111 \
+npm run package:teams
+```
+
+The command creates:
+
+- `/home/runner/work/Hackathon-Ev/Hackathon-Ev/dist/teams-app-package/manifest.json`
+- `/home/runner/work/Hackathon-Ev/Hackathon-Ev/dist/teams-app-package.zip`
+
+### Required Teams packaging variables
+
+- `TEAMS_BASE_URL`: public HTTPS base URL for this service
+- `TEAMS_APP_ID`: Teams app ID
+- `TEAMS_BOT_ID`: Bot/Azure app ID used by Teams
+
+Optional variables:
+
+- `TEAMS_APP_NAME`
+- `TEAMS_PACKAGE_NAME`
+- `TEAMS_DEVELOPER_NAME`
+- `TEAMS_SHORT_DESCRIPTION`
+- `TEAMS_FULL_DESCRIPTION`
+
+### Sideloading
+
+1. Build the package zip with `npm run package:teams`.
+2. In Teams, open **Apps**.
+3. Choose **Manage your apps** or **Upload a custom app**.
+4. Upload `/home/runner/work/Hackathon-Ev/Hackathon-Ev/dist/teams-app-package.zip`.
+5. Configure the bot messaging endpoint in Teams/Azure to use `/api/teams/messages`.
