@@ -1,0 +1,29 @@
+docker:
+  - "Dockerfile.*"
+  - "Dockerfile"
+
+documentation:
+  - "docs/**"
+  - "**/*.md"
+
+github_actions:
+  - ".github/*"
+  - ".github/**/*"
+
+packages:
+  - "packages*.txt"
+  - "requirements*.txt"
+
+scripts:
+  - "scripts/*"
+  - "scripts/**/*"
+  - "**/*.sh"
+
+terraform:
+  - "terraform/**"
+  - "terraform/**/*"
+  - "**/*.tf"
+  - "**/*.tfvars"
+
+python:
+  - "**/*.py"

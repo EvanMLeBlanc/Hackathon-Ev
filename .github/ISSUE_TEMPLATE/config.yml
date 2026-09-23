@@ -1,0 +1,12 @@
+blank_issues_enabled: false
+
+contact_links:
+  - name: Project/product documentation site
+    url: https://your-url-goes-here/
+    about: |-
+      Project/product documentation can be found here.
+
+  - name: Slalom Build
+    url: https://www.slalombuild.com/
+    about: |-
+      We are the makers, the planners, the creatives and coders. Driven and empowered to build a world realizing the full promise of technology, we choose to imagine things made better—and then set out on a journey to realize what's possible.
